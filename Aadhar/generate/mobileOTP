@@ -1,0 +1,57 @@
+@startuml 
+box 
+actor user #red 
+
+participant " AccountControllerImpl " as 2
+participant "TransactionService" as 3
+participant "userDetailsComponent " as 4 
+participant " OTPFloodService " as 5 
+participant  " SmsService" as 6
+participant  " TransactionRepoService" as 7
+
+
+user -> 2 : /generate/mobileOTP  
+2 -> 3:/profile/Share 
+
+note over 3
+**Method** 
+generateMobileOTP()
+end note 
+3  -> 4  
+
+note over 4
+**Method** 
+validateMaxAccountByMobile()
+end note 
+
+4 -> 4 
+note over 4
+**Method** 
+startMobileTransaction()
+end note 
+
+4 -> 5 
+
+note over 5 
+**Method** 
+checkLastgenerate()
+end note 
+
+5 -> 6 
+
+note over 6
+**Method** 
+sendVerification()
+end note
+
+6 -> 7 
+
+note over 7
+**Method**
+save() 
+end note
+
+7[#Green]-> 2: response  
+2[#green]->user: response  
+
+@enduml
